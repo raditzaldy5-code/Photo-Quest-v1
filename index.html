@@ -1,0 +1,3147 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Photo Quest</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+margin:0;
+min-height:100%;
+background:#101010;
+color:#fff;
+font-family:Arial,Helvetica,sans-serif
+}
+
+body{padding:16px 0}
+.wrap{max-width:680px;margin:auto;padding:0 16px}
+
+.card{
+background:#1b1b1b;
+border:1px solid #333;
+border-radius:24px;
+padding:22px;
+box-shadow:0 14px 40px #0008
+}
+
+.hidden{display:none!important}
+.muted{color:#aaa}
+
+.playerId{
+color:#777;
+font-size:12px;
+margin-top:4px;
+letter-spacing:.3px
+}
+
+.top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px
+}
+
+.profileBox{
+position:relative;
+overflow:hidden;
+background:#292929;
+border-radius:20px;
+margin:10px 0 14px;
+min-height:180px;
+padding:0
+}
+
+.profileBanner{
+width:100%;
+aspect-ratio:3/1;
+height:auto;
+object-fit:cover;
+display:block;
+transform-origin:center center;
+background:linear-gradient(135deg,#343434,#1f1f1f)
+}
+
+.profileContent{
+position:relative;
+display:flex;
+align-items:center;
+gap:14px;
+padding:0 18px 16px;
+margin-top:-44px
+}
+
+.profileInfo{padding-top:28px}
+
+.nameRow{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap
+}
+
+.nameRow .onlineStatus{margin-top:0}
+
+.profileContent .avatarWrap{z-index:1}
+
+.avatarWrap{
+position:relative;
+width:118px;
+height:118px;
+flex:none
+}
+
+.avatar{
+width:118px;
+height:118px;
+border-radius:50%;
+object-fit:cover;
+background:#303030;
+border:4px solid #292929;
+transform-origin:center center
+}
+
+.smallAvatar{
+width:68px;
+height:68px
+}
+
+.pencil{
+position:absolute;
+right:-2px;
+top:-5px;
+width:36px;
+height:36px;
+border-radius:50%;
+border:3px solid #111;
+background:#fff;
+color:#111;
+font-size:22px;
+font-weight:700;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+z-index:2
+}
+
+.pencil input{display:none}
+
+.name{
+font-size:24px;
+font-weight:800
+}
+
+.onlineStatus{
+display:flex;
+align-items:center;
+gap:7px;
+color:#aaa;
+font-size:14px;
+font-weight:700;
+margin-top:4px
+}
+
+.onlineDot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:#35d46b;
+display:inline-block
+}
+
+.sectionTitle{
+font-size:24px;
+font-weight:800;
+margin:26px 0 10px
+}
+
+.grid2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px
+}
+
+.btn{
+width:100%;
+border:0;
+border-radius:16px;
+padding:16px 12px;
+margin-top:12px;
+background:#fff;
+color:#111;
+font-weight:800;
+font-size:18px;
+cursor:pointer
+}
+
+.btn.dark{
+background:#292929;
+color:#fff;
+border:1px solid #3b3b3b
+}
+
+.btn.active{
+background:#fff;
+color:#111
+}
+
+.choice{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px
+}
+
+.choice.two{
+grid-template-columns:repeat(2,1fr)
+}
+
+.choice button{
+border:0;
+border-radius:16px;
+padding:17px 8px;
+background:#292929;
+color:#fff;
+font-weight:800;
+font-size:18px
+}
+
+.choice button.active{
+background:#fff;
+color:#111
+}
+
+.full{width:100%}
+
+.historyHead{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-top:26px
+}
+
+.historyHead h3{
+margin:0;
+color:#aaa;
+font-size:20px
+}
+
+.toggle{
+border:1px solid #444;
+background:#292929;
+color:#aaa;
+border-radius:30px;
+padding:9px 17px;
+font-weight:800;
+cursor:pointer
+}
+
+.historyItem{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+background:#242424;
+border:1px solid #363636;
+border-radius:15px;
+padding:13px 14px;
+margin-top:10px
+}
+
+.historyInfo b{font-size:16px}
+
+.historyInfo small{
+display:block;
+color:#999;
+margin-top:6px
+}
+
+.historyItem .retry{
+width:auto;
+margin:0;
+padding:10px 15px;
+font-size:14px;
+border-radius:12px
+}
+
+.statsGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px
+}
+
+.statCard{
+background:#242424;
+border:1px solid #363636;
+border-radius:16px;
+padding:18px;
+text-align:center
+}
+
+.statCard b{
+font-size:25px;
+display:block;
+margin-top:5px
+}
+
+.leader{
+display:flex;
+align-items:center;
+gap:14px;
+background:#242424;
+border:1px solid #363636;
+border-radius:16px;
+padding:14px;
+margin-top:10px
+}
+
+.rankNo{
+font-size:22px;
+font-weight:900;
+width:34px
+}
+
+.leader img{
+width:52px;
+height:52px;
+border-radius:50%;
+object-fit:cover
+}
+
+.leader .grow{flex:1}
+
+.back{margin-top:18px}
+
+.questText{line-height:1.55}
+
+.label{
+display:block;
+font-weight:800;
+margin:16px 0 7px
+}
+
+select,input{
+width:100%;
+padding:14px;
+border-radius:13px;
+border:1px solid #555;
+background:#101010;
+color:#fff;
+font-size:16px
+}
+
+.feedback{
+margin-top:15px;
+padding:15px;
+border-radius:14px;
+background:#242424;
+line-height:1.55
+}
+
+.good{border:1px solid #55d982}
+.mid{border:1px solid #e8c55b}
+.bad{border:1px solid #ff6666}
+
+.answer{
+background:#101010;
+border-radius:12px;
+padding:12px;
+margin-top:12px
+}
+
+.bar{
+height:8px;
+background:#303030;
+border-radius:9px;
+overflow:hidden;
+margin:12px 0
+}
+
+.fill{
+height:100%;
+background:#fff;
+width:0;
+transition:.25s
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:#000b;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:18px;
+z-index:20
+}
+
+.modalCard{
+width:100%;
+max-width:520px;
+max-height:90vh;
+overflow:auto
+}
+
+.fileInput{display:none}
+
+.notice{
+background:#242424;
+border-radius:14px;
+padding:12px;
+color:#aaa;
+font-size:13px;
+margin-top:12px
+}
+
+.loginAvatar{
+width:90px;
+height:90px;
+flex:none
+}
+
+.loginProfileRow{
+display:flex;
+align-items:center;
+gap:18px;
+margin:18px 0
+}
+
+.loginPhotoPicker{flex:1}
+
+.empty{
+color:#888;
+padding:12px 0
+}
+
+.seeMore{
+background:none;
+border:0;
+color:#fff;
+font-weight:800;
+padding:12px 0;
+cursor:pointer
+}
+
+.miniRow{
+display:flex;
+gap:10px;
+align-items:center
+}
+
+.scoreBig{
+font-size:30px;
+font-weight:900
+}
+
+.cropBox{
+position:relative;
+width:100%;
+max-width:440px;
+margin:14px auto;
+background:#0d0d0d;
+border-radius:18px;
+overflow:hidden;
+touch-action:none
+}
+
+.cropViewport{
+position:relative;
+width:100%;
+aspect-ratio:3/1;
+overflow:hidden;
+background:#111
+}
+
+.cropViewport.circle{
+aspect-ratio:1/1
+}
+
+.cropImg{
+position:absolute;
+left:50%;
+top:50%;
+max-width:none;
+user-select:none;
+-webkit-user-drag:none;
+transform-origin:center center;
+cursor:grab
+}
+
+.cropImg.dragging{cursor:grabbing}
+
+.cropMask{
+position:absolute;
+inset:0;
+pointer-events:none
+}
+
+.cropMask.circle:after{
+content:"";
+position:absolute;
+width:92%;
+height:92%;
+border:3px solid #fff;
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+box-shadow:0 0 0 9999px #0008
+}
+
+.cropMask.banner:after{
+content:"";
+position:absolute;
+inset:0;
+border:3px solid #fff;
+border-radius:10px;
+box-shadow:0 0 0 9999px #0008
+}
+
+.cropControls{
+display:flex;
+gap:10px;
+align-items:center;
+margin-top:12px
+}
+
+.cropControls input{flex:1}
+
+.cropHint{
+text-align:center;
+color:#aaa;
+font-size:13px;
+margin:8px 0
+}
+
+.cropActions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+
+/* HAMBURGER */
+
+.hamburgerBtn{
+width:44px;
+height:44px;
+border:1px solid #444;
+border-radius:12px;
+background:#292929;
+color:#fff;
+font-size:25px;
+line-height:1;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+margin:0 0 8px 0
+}
+
+.hamburgerBtn:active{
+transform:scale(.97)
+}
+
+/* DRAWER */
+
+.menuDrawer{
+position:fixed;
+inset:0;
+background:#0008;
+z-index:50;
+opacity:1;
+transition:.25s
+}
+
+.menuDrawer.hidden{
+display:block!important;
+opacity:0;
+pointer-events:none
+}
+
+.drawerPanel{
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:min(320px,84vw);
+background:#181818;
+border-right:1px solid #333;
+padding:24px 18px;
+transform:translateX(0);
+transition:.28s;
+box-shadow:12px 0 35px #0008
+}
+
+.menuDrawer.hidden .drawerPanel{
+transform:translateX(-100%)
+}
+
+.drawerHead{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:30px
+}
+
+.drawerHead h2{
+margin:0;
+font-size:22px
+}
+
+.drawerClose{
+width:42px;
+height:42px;
+border:1px solid #444;
+border-radius:12px;
+background:#292929;
+color:#fff;
+font-size:20px;
+font-weight:800
+}
+
+.themeRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:14px;
+background:#242424;
+border:1px solid #363636;
+border-radius:16px;
+padding:15px
+}
+
+.themeText b{
+display:block;
+font-size:17px
+}
+
+.themeText small{
+display:block;
+color:#999;
+margin-top:4px
+}
+
+.themeSwitch{
+position:relative;
+width:62px;
+height:34px;
+border-radius:20px;
+background:#222;
+border:2px solid #111;
+cursor:pointer;
+flex:none;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.themeSwitch:after{
+content:"🌙";
+position:absolute;
+width:28px;
+height:28px;
+border-radius:50%;
+left:30px;
+top:1px;
+background:#111;
+color:#fff;
+font-size:17px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.22s;
+line-height:1
+}
+
+.light-theme .themeSwitch{
+background:#fff;
+border-color:#ccc
+}
+
+.light-theme .themeSwitch:after{
+content:"☀️";
+left:1px;
+background:#fff;
+color:#111
+}
+
+.drawerCredit{
+position:absolute;
+left:18px;
+bottom:24px;
+color:#888;
+font-size:13px;
+line-height:1.6
+}
+
+.light-theme{
+background:#f3f3f3!important;
+color:#171717!important
+}
+
+.light-theme .card,
+.light-theme .profileBox{
+background:#fff;
+border-color:#ddd;
+box-shadow:0 14px 40px #0002
+}
+
+.light-theme .profileBanner{
+background:#ddd
+}
+
+.light-theme .muted{
+color:#666
+}
+
+.light-theme .playerId{
+color:#777
+}
+
+.light-theme .choice button,
+.light-theme .toggle,
+.light-theme .historyItem,
+.light-theme .statCard,
+.light-theme .leader,
+.light-theme .feedback,
+.light-theme .notice,
+.light-theme .btn.dark{
+background:#eee;
+color:#171717;
+border-color:#d5d5d5
+}
+
+.light-theme .choice button.active,
+.light-theme .btn{
+background:#171717;
+color:#fff
+}
+
+.light-theme select,
+.light-theme input{
+background:#fff;
+color:#171717;
+border-color:#ccc
+}
+
+.light-theme .answer{
+background:#f1f1f1
+}
+
+.light-theme .bar{
+background:#ddd
+}
+
+.light-theme .hamburgerBtn{
+background:#fffb;
+color:#111;
+border-color:#ddd
+}
+
+.light-theme .drawerPanel{
+background:#fff;
+border-color:#ddd;
+box-shadow:12px 0 35px #0002
+}
+
+.light-theme .drawerHead,
+.light-theme .drawerClose{
+color:#171717
+}
+
+.light-theme .drawerClose{
+background:#eee;
+border-color:#ddd
+}
+
+@media(max-width:480px){
+.card{padding:20px}
+
+.profileContent{
+padding:0 12px 12px;
+margin-top:-34px
+}
+
+.avatarWrap{
+width:92px;
+height:92px
+}
+
+.avatar{
+width:92px;
+height:92px
+}
+
+.pencil{
+width:36px;
+height:36px;
+right:-2px;
+top:-5px
+}
+
+.name{font-size:21px}
+
+.btn{font-size:16px}
+
+.choice{gap:10px}
+
+.choice button{
+font-size:16px
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<!-- LOGIN -->
+
+<section id="login" class="card">
+
+<div class="loginTitle">
+<h1>📸 PHOTO QUEST</h1>
+<p class="muted">Quiz fotografi sederhana untuk melatih setting kamera.</p>
+</div>
+
+<label class="label">Nama</label>
+<input id="loginName" maxlength="20" placeholder="Masukkan nama">
+
+<div class="loginProfileRow">
+
+<div class="avatarWrap">
+<img id="loginAvatar" class="avatar loginAvatar" alt="profil">
+
+<label class="pencil" title="Ganti foto">
+✎
+<input id="loginPhoto" class="fileInput" type="file" accept="image/*">
+</label>
+</div>
+
+<div>
+<b>Foto Profil</b>
+<div class="muted" style="font-size:13px;margin-top:5px">
+Tekan ikon pensil untuk memilih foto.
+</div>
+</div>
+
+</div>
+
+<button class="btn" onclick="login()">MASUK & MULAI</button>
+
+</section>
+
+
+<!-- HOME -->
+
+<section id="home" class="hidden">
+
+<div class="hamburgerBtn" onclick="openMenu()">☰</div>
+
+<div class="top">
+<h1>PHOTO QUEST</h1>
+</div>
+
+<div class="profileBox">
+
+<img id="homeBanner"
+class="profileBanner"
+alt="banner">
+
+<div class="profileContent">
+
+<div class="avatarWrap">
+<img id="homeAvatar" class="avatar" alt="profil">
+</div>
+
+<div class="profileInfo">
+
+<div class="nameRow">
+<div class="name" id="homeName"></div>
+
+<div class="onlineStatus">
+<span class="onlineDot"></span>
+online
+</div>
+</div>
+
+<div class="playerId" id="homePlayerId"></div>
+
+</div>
+
+</div>
+</div>
+
+
+<div class="grid2">
+
+<button class="btn dark" onclick="showProfile()">
+PROFIL
+</button>
+
+<button class="btn dark" onclick="showStats()">
+STATISTIK
+</button>
+
+<button class="btn dark" onclick="showLeaderboard()">
+LEADERBOARD
+</button>
+
+</div>
+
+
+<div class="sectionTitle">Kesulitan</div>
+
+<div class="choice">
+
+<button id="easyBtn" onclick="setDifficulty('easy')">
+EASY
+</button>
+
+<button id="mediumBtn" onclick="setDifficulty('medium')">
+MEDIUM
+</button>
+
+<button id="hardBtn" onclick="setDifficulty('hard')">
+HARD
+</button>
+
+</div>
+
+
+<div class="sectionTitle">Jumlah Soal</div>
+
+<div class="choice two">
+
+<button id="count5Btn" onclick="setCount(5)">
+5 SOAL
+</button>
+
+<button id="count10Btn" onclick="setCount(10)">
+10 SOAL
+</button>
+
+</div>
+
+
+<button class="btn" onclick="startGame()">
+MULAI QUEST
+</button>
+
+
+<div class="historyHead">
+
+<h3>HISTORI</h3>
+
+<button
+id="historyToggle"
+class="toggle"
+onclick="toggleHistory()">
+HISTORI: ON
+</button>
+
+</div>
+
+<div id="historyArea"></div>
+
+</section>
+
+
+<!-- QUEST -->
+
+<section id="quest" class="card hidden">
+
+<div class="miniRow">
+
+<b id="questionNumber">Quest 1</b>
+
+<div style="flex:1"></div>
+
+<span id="scoreText">0 poin</span>
+
+</div>
+
+<div class="bar">
+<div id="progressFill" class="fill"></div>
+</div>
+
+<h2 id="questionTitle"></h2>
+
+<p id="questionText" class="questText"></p>
+
+
+<label class="label">ISO</label>
+
+<select id="iso">
+<option value="">Pilih ISO</option>
+<option>100</option>
+<option>200</option>
+<option>400</option>
+<option>800</option>
+<option>1000</option>
+<option>1600</option>
+<option>2000</option>
+<option>3200</option>
+<option>6400</option>
+</select>
+
+
+<label class="label">Aperture</label>
+
+<select id="aperture">
+<option value="">Pilih Aperture</option>
+<option>f/1.4</option>
+<option>f/1.8</option>
+<option>f/2</option>
+<option>f/2.8</option>
+<option>f/4</option>
+<option>f/5.6</option>
+<option>f/8</option>
+<option>f/10</option>
+<option>f/11</option>
+<option>f/16</option>
+</select>
+
+
+<label class="label">Shutter Speed</label>
+
+<select id="shutter">
+<option value="">Pilih Shutter Speed</option>
+<option>1/30</option>
+<option>1/60</option>
+<option>1/80</option>
+<option>1/100</option>
+<option>1/120</option>
+<option>1/125</option>
+<option>1/250</option>
+<option>1/500</option>
+<option>1/1000</option>
+<option>1/2000</option>
+</select>
+
+
+<button id="answerBtn" class="btn" onclick="submitAnswer()">
+CEK JAWABAN
+</button>
+
+<div id="feedback" class="feedback hidden"></div>
+
+<button id="nextBtn" class="btn hidden" onclick="nextQuestion()">
+SOAL BERIKUTNYA
+</button>
+
+</section>
+
+
+<!-- FINISH -->
+
+<section id="finish" class="card hidden">
+
+<h1>QUEST SELESAI 🎉</h1>
+
+<div id="finalScore" class="scoreBig"></div>
+
+<h2 id="finalRank"></h2>
+
+<p id="finalSummary" class="muted"></p>
+
+<button class="btn" onclick="playAgain()">
+MAIN LAGI
+</button>
+
+<button class="btn dark" onclick="goHome()">
+KEMBALI KE MENU
+</button>
+
+</section>
+
+
+<!-- STATS -->
+
+<section id="statsPage" class="card hidden">
+
+<h1>STATISTIK</h1>
+
+<div class="statsGrid">
+
+<div class="statCard">
+Games
+<b id="stGames">0</b>
+</div>
+
+<div class="statCard">
+Best Score
+<b id="stBest">0</b>
+</div>
+
+<div class="statCard">
+Rata-rata
+<b id="stAvg">0</b>
+</div>
+
+<div class="statCard">
+Total Soal
+<b id="stQuestions">0</b>
+</div>
+
+</div>
+
+<button class="btn dark back" onclick="goHome()">
+KEMBALI
+</button>
+
+</section>
+
+
+<!-- LEADERBOARD -->
+
+<section id="leaderboardPage" class="card hidden">
+
+<h1>LEADERBOARD</h1>
+
+<div id="leaderboardList"></div>
+
+<button class="btn dark back" onclick="goHome()">
+KEMBALI
+</button>
+
+</section>
+
+</div>
+
+
+<!-- PROFILE MODAL -->
+
+<div id="profileModal" class="modal hidden">
+
+<div class="card modalCard">
+
+<h2>Profil</h2>
+
+<div class="avatarWrap" style="margin:15px auto">
+
+<img id="profileAvatar" class="avatar" alt="profil">
+
+<label class="pencil" title="Ganti foto">
+✎
+<input
+id="profilePhoto"
+class="fileInput"
+type="file"
+accept="image/*">
+</label>
+
+</div>
+
+
+<label class="label">Nama</label>
+
+<input
+id="profileName"
+maxlength="20">
+
+
+<div class="notice">
+
+<b>Player ID</b><br>
+
+<span id="profilePlayerId"></span>
+
+</div>
+
+
+<label class="label">Banner Profil</label>
+
+<label class="btn dark"
+style="display:block;text-align:center;cursor:pointer">
+
+GANTI BANNER
+
+<input
+id="profileBannerInput"
+class="fileInput"
+type="file"
+accept="image/*">
+
+</label>
+
+
+<button class="btn dark" onclick="removeBanner()">
+HAPUS BANNER
+</button>
+
+
+<button class="btn" onclick="saveProfile()">
+SIMPAN
+</button>
+
+<button class="btn dark" onclick="closeModal()">
+BATAL
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CROP MODAL -->
+
+<div id="cropModal" class="modal hidden">
+
+<div class="card modalCard">
+
+<h2 id="cropTitle">Atur Foto</h2>
+
+<div class="cropBox">
+
+<div id="cropViewport" class="cropViewport">
+
+<img id="cropImg" class="cropImg">
+
+<div id="cropMask" class="cropMask"></div>
+
+</div>
+
+</div>
+
+<div class="cropHint">
+Geser foto untuk mengatur posisi.
+Gunakan slider untuk zoom.
+</div>
+
+<div class="cropControls">
+
+<span>Zoom</span>
+
+<input
+id="cropZoom"
+type="range"
+min="1"
+max="3"
+step=".01"
+value="1">
+
+</div>
+
+<div class="cropActions">
+
+<button class="btn dark" onclick="cancelCrop()">
+BATAL
+</button>
+
+<button class="btn" onclick="applyCrop()">
+GUNAKAN FOTO
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MENU DRAWER -->
+
+<div id="menuDrawer" class="menuDrawer hidden" onclick="if(event.target===this)closeMenu()">
+
+<div class="drawerPanel">
+
+<div class="drawerHead">
+
+<h2>MENU</h2>
+
+<button class="drawerClose" onclick="closeMenu()">
+✕
+</button>
+
+</div>
+
+
+<div class="themeRow">
+
+<div class="themeText">
+
+<b>Tema</b>
+
+<small id="themeLabel">Gelap</small>
+
+</div>
+
+<div
+id="themeSwitch"
+class="themeSwitch"
+onclick="toggleTheme()">
+</div>
+
+</div>
+
+
+<div class="drawerCredit">
+
+Created by GPT and Anonymou
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const $ = id => document.getElementById(id);
+
+
+/* =========================
+   DATA SOAL
+========================= */
+
+const QUESTIONS = {
+
+easy:[
+
+{
+title:"Outdoor Siang",
+text:"Kamu memotret seseorang di luar ruangan pada siang hari yang cerah. Pilih setting yang aman untuk foto tajam dan tidak overexposure.",
+iso:["100","200"],
+ap:["f/2.8","f/4","f/5.6"],
+ss:["250","500"],
+why:"Siang hari terang biasanya membutuhkan ISO rendah. Shutter cepat membantu menghindari foto terlalu terang dan aperture menengah memberi ketajaman yang cukup."
+},
+
+{
+title:"Indoor Terang",
+text:"Kamu memotret teman di ruangan indoor dengan pencahayaan cukup terang.",
+iso:["400","800"],
+ap:["f/2.8","f/4"],
+ss:["60","80","100","120"],
+why:"Indoor membutuhkan ISO lebih tinggi dibanding outdoor. Aperture cukup terbuka membantu memasukkan lebih banyak cahaya."
+},
+
+{
+title:"Portrait Indoor",
+text:"Kamu ingin membuat portrait dengan background agak blur di dalam ruangan.",
+iso:["400","800"],
+ap:["f/1.8","f/2","f/2.8"],
+ss:["60","80","100","120"],
+why:"Aperture besar seperti f/1.8 menghasilkan depth of field dangkal sehingga background lebih blur."
+},
+
+{
+title:"Landscape",
+text:"Kamu memotret pemandangan luas di siang hari dan ingin area depan sampai belakang tetap tajam.",
+iso:["100","200"],
+ap:["f/8","f/10","f/11"],
+ss:["125","250"],
+why:"Landscape biasanya menggunakan aperture lebih kecil seperti f/8–f/11 untuk depth of field yang lebih luas."
+},
+
+{
+title:"Freeze Action",
+text:"Kamu memotret orang yang bergerak cepat di luar ruangan.",
+iso:["200","400","800"],
+ap:["f/2.8","f/4","f/5.6"],
+ss:["500","1000"],
+why:"Untuk membekukan gerakan, shutter speed cepat adalah prioritas."
+}
+
+],
+
+medium:[
+
+{
+title:"Indoor Gelap",
+text:"Ruangan cukup gelap dan kamu ingin memotret orang tanpa flash.",
+iso:["800","1000","1600"],
+ap:["f/1.8","f/2","f/2.8"],
+ss:["60","80","120"],
+why:"ISO lebih tinggi dan aperture lebar membantu mendapatkan exposure yang cukup tanpa shutter terlalu lambat."
+},
+
+{
+title:"Street Malam",
+text:"Kamu memotret suasana jalan pada malam hari dengan kamera handheld.",
+iso:["800","1600","2000"],
+ap:["f/1.8","f/2.8"],
+ss:["60","80","120"],
+why:"Street malam membutuhkan kompromi antara ISO tinggi, aperture lebar dan shutter yang masih cukup aman untuk handheld."
+},
+
+{
+title:"Anak Bergerak",
+text:"Kamu memotret anak yang terus bergerak di dalam ruangan.",
+iso:["800","1000","1600"],
+ap:["f/2.8","f/4"],
+ss:["250","500"],
+why:"Subjek bergerak membutuhkan shutter lebih cepat. ISO dinaikkan agar shutter tersebut tetap mendapatkan exposure yang cukup."
+},
+
+{
+title:"Sunset",
+text:"Kamu memotret sunset dan ingin warna langit tetap kaya serta tidak terlalu terang.",
+iso:["100","200","400"],
+ap:["f/5.6","f/8"],
+ss:["125","250","500"],
+why:"ISO rendah membantu menjaga kualitas gambar dan aperture menengah memberi kontrol exposure yang lebih baik."
+},
+
+{
+title:"Concert",
+text:"Kamu berada di konser dengan cahaya panggung yang berubah-ubah dan subjek bergerak.",
+iso:["800","1600","2000","3200"],
+ap:["f/1.8","f/2.8"],
+ss:["250","500"],
+why:"Konser membutuhkan shutter cepat untuk gerakan performer dan ISO tinggi karena kondisi cahaya sering rendah."
+}
+
+],
+
+hard:[
+
+{
+title:"Night Portrait",
+text:"Kamu memotret portrait malam hari dengan lampu kota sebagai background.",
+iso:["800","1600","2000"],
+ap:["f/1.4","f/1.8","f/2"],
+ss:["60","80","120"],
+why:"Aperture lebar membantu mendapatkan cahaya sekaligus background blur. Shutter tetap harus cukup aman untuk handheld."
+},
+
+{
+title:"Fast Action Indoor",
+text:"Kamu memotret olahraga indoor yang bergerak sangat cepat dengan pencahayaan terbatas.",
+iso:["1600","2000","3200"],
+ap:["f/1.8","f/2.8"],
+ss:["500","1000"],
+why:"Freeze motion membutuhkan shutter sangat cepat. Karena cahaya terbatas, ISO harus dinaikkan dan aperture dibuka."
+},
+
+{
+title:"Low Light Street",
+text:"Kamu memotret street photography pada malam hari dengan cahaya lampu jalan yang minim.",
+iso:["1600","2000","3200"],
+ap:["f/1.8","f/2","f/2.8"],
+ss:["60","80","120"],
+why:"Low light membutuhkan ISO tinggi dan aperture lebar. Shutter sekitar 1/60–1/120 masih lebih aman untuk handheld."
+},
+
+{
+title:"Bright Snow",
+text:"Kamu memotret pemandangan salju yang sangat terang pada siang hari.",
+iso:["100","200"],
+ap:["f/8","f/11"],
+ss:["250","500","1000"],
+why:"Salju memantulkan banyak cahaya sehingga ISO rendah dan shutter cepat membantu mencegah highlight overexposure."
+},
+
+{
+title:"Deep Landscape",
+text:"Kamu memotret landscape dan ingin foreground serta background sama-sama tajam.",
+iso:["100","200"],
+ap:["f/8","f/11","f/16"],
+ss:["60","125","250"],
+why:"Aperture kecil memberikan depth of field lebih dalam sehingga area foreground hingga background dapat tetap tajam."
+}
+
+]
+
+};
+
+
+/* =========================
+   STATE
+========================= */
+
+let user=null;
+
+let settings={
+difficulty:"easy",
+count:5
+};
+
+let current=[];
+
+let qIndex=0;
+let score=0;
+let perfect=0;
+
+
+/* =========================
+   UTILITY
+========================= */
+
+function makeId(){
+
+return "PQ-"+Math.random()
+.toString(36)
+.substring(2,8)
+.toUpperCase();
+
+}
+
+
+function avatarData(name){
+
+const letter=(name||"P")
+.charAt(0)
+.toUpperCase();
+
+return "data:image/svg+xml;charset=UTF-8,"+
+encodeURIComponent(
+
+`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+<rect width="100%" height="100%" fill="#303030"/>
+<text x="50%" y="55%"
+text-anchor="middle"
+font-size="140"
+font-family="Arial"
+fill="white">${letter}</text>
+</svg>`
+
+);
+
+}
+
+
+function updateImage(el,src){
+
+el.src=src||avatarData(user?.name||"Player");
+
+}
+
+
+function saveUser(){
+
+try{
+
+localStorage.setItem(
+"pqUserV4",
+JSON.stringify(user)
+);
+
+}catch(e){
+
+console.warn("Storage error",e);
+
+}
+
+}
+
+
+function readUser(){
+
+try{
+
+return JSON.parse(
+localStorage.getItem("pqUserV4")||"null"
+);
+
+}catch(e){
+
+return null;
+
+}
+
+}
+
+
+function readHistory(){
+
+return user?.history||[];
+
+}
+
+
+function showOnly(id){
+
+[
+"login",
+"home",
+"quest",
+"finish",
+"statsPage",
+"leaderboardPage"
+].forEach(x=>{
+
+$(x).classList.toggle(
+"hidden",
+x!==id
+);
+
+});
+
+}
+
+
+function showHome(){
+
+showOnly("home");
+
+updateHome();
+
+renderHistory();
+
+}
+
+
+function updateHome(){
+
+if(!user)return;
+
+$("homeName").textContent=user.name;
+
+$("homePlayerId").textContent=
+"ID: "+user.id;
+
+updateImage(
+$("homeAvatar"),
+user.avatar
+);
+
+$("homeBanner").src=
+user.banner||defaultBanner();
+
+setDifficulty(settings.difficulty);
+
+setCount(settings.count);
+
+}
+
+
+function formatDate(s){
+
+const d=new Date(s);
+
+return d.toLocaleDateString(
+"id-ID",
+{
+day:"2-digit",
+month:"short"
+}
+)+", "+
+d.toLocaleTimeString(
+"id-ID",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+const name=$("loginName")
+.value.trim();
+
+if(!name){
+
+alert("Masukkan nama dulu.");
+
+return;
+
+}
+
+let photo=avatarData(name);
+
+const file=$("loginPhoto")
+.files?.[0];
+
+if(file){
+
+try{
+
+const reader=new FileReader();
+
+reader.onload=()=>{
+
+createUser(
+name,
+reader.result
+);
+
+};
+
+reader.onerror=()=>{
+
+createUser(
+name,
+photo
+);
+
+};
+
+reader.readAsDataURL(file);
+
+return;
+
+}catch(e){}
+
+}
+
+createUser(
+name,
+photo
+);
+
+}
+
+
+function createUser(name,photo){
+
+user={
+
+id:makeId(),
+
+name:name,
+
+avatar:photo||avatarData(name),
+
+banner:"",
+
+games:0,
+
+best:0,
+
+totalScore:0,
+
+totalQuestions:0,
+
+history:[],
+
+historyVisible:true,
+
+historyExpanded:false
+
+};
+
+saveUser();
+
+showHome();
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function setDifficulty(d){
+
+settings.difficulty=d;
+
+[
+"easyBtn",
+"mediumBtn",
+"hardBtn"
+].forEach(id=>{
+
+$(id).classList.remove("active");
+
+});
+
+$(d+"Btn").classList.add("active");
+
+}
+
+
+function setCount(n){
+
+settings.count=n;
+
+$("count5Btn").classList.toggle(
+"active",
+n===5
+);
+
+$("count10Btn").classList.toggle(
+"active",
+n===10
+);
+
+}
+
+
+/* =========================
+   RANDOM QUEST
+========================= */
+
+function shuffle(arr){
+
+const a=[...arr];
+
+for(let i=a.length-1;i>0;i--){
+
+const j=Math.floor(
+Math.random()*(i+1)
+);
+
+[a[i],a[j]]=[a[j],a[i]];
+
+}
+
+return a;
+
+}
+
+
+function getQuestions(){
+
+let pool=shuffle(
+QUESTIONS[settings.difficulty]
+);
+
+let all=[];
+
+Object.values(QUESTIONS)
+.forEach(x=>{
+all.push(...x);
+});
+
+if(settings.count<=pool.length){
+
+return pool.slice(
+0,
+settings.count
+);
+
+}
+
+
+/* Kalau minta 10 tapi difficulty
+punya kurang dari 10 soal,
+ambil soal dari pool lain juga. */
+
+let result=[...pool];
+
+let remaining=shuffle(
+all.filter(x=>!result.includes(x))
+);
+
+result.push(
+...remaining.slice(
+0,
+settings.count-result.length
+)
+);
+
+return shuffle(result);
+
+}
+
+
+function startGame(){
+
+current=getQuestions();
+
+qIndex=0;
+score=0;
+perfect=0;
+
+showOnly("quest");
+
+loadQuestion();
+
+}
+
+
+function playAgain(){
+
+startGame();
+
+}
+
+
+function loadQuestion(){
+
+const q=current[qIndex];
+
+$("questionNumber").textContent=
+`Quest ${qIndex+1}/${current.length}`;
+
+$("scoreText").textContent=
+`${score} poin`;
+
+$("progressFill").style.width=
+((qIndex/current.length)*100)+"%";
+
+$("questionTitle").textContent=
+q.title;
+
+$("questionText").textContent=
+q.text;
+
+$("iso").value="";
+$("aperture").value="";
+$("shutter").value="";
+
+$("feedback").className=
+"feedback hidden";
+
+$("feedback").innerHTML="";
+
+$("answerBtn").classList.remove(
+"hidden"
+);
+
+$("nextBtn").classList.add(
+"hidden"
+);
+
+}
+
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function submitAnswer(){
+
+const iso=$("iso").value;
+
+const ap=$("aperture").value;
+
+const ss=$("shutter").value;
+
+if(!iso||!ap||!ss){
+
+alert("Lengkapi ISO, aperture, dan shutter speed.");
+
+return;
+
+}
+
+const q=current[qIndex];
+
+let correct=0;
+
+if(q.iso.includes(iso))
+correct++;
+
+if(q.ap.includes(ap))
+correct++;
+
+if(q.ss.includes(
+ss.replace("1/","")
+))
+correct++;
+
+let pts=0;
+
+let type="bad";
+
+let msg="Kurang tepat";
+
+if(correct===3){
+
+pts=10;
+type="good";
+msg="Perfect!";
+perfect++;
+
+}else if(correct===2){
+
+pts=6;
+type="mid";
+msg="Hampir sempurna";
+
+}else if(correct===1){
+
+pts=3;
+type="mid";
+msg="Ada yang benar";
+
+}
+
+score+=pts;
+
+const ideal=
+`ISO ${q.iso.join(" / ")} • `+
+`${q.ap.join(" / ")} • `+
+`${q.ss.map(
+x=>"1/"+x+"s"
+).join(" / ")}`;
+
+$("feedback").className=
+"feedback "+type;
+
+$("feedback").innerHTML=`
+
+<b>${msg} — ${pts}/10</b>
+
+<br><br>
+
+<b>Jawaban kamu:</b>
+ISO ${iso} • ${ap} • 1/${ss}s
+
+<div class="answer">
+
+<b>📖 Jawaban ideal:</b>
+
+<br>
+
+${ideal}
+
+<br><br>
+
+${q.why}
+
+</div>
+`;
+
+$("answerBtn").classList.add(
+"hidden"
+);
+
+$("nextBtn").classList.remove(
+"hidden"
+);
+
+$("scoreText").textContent=
+`${score} poin`;
+
+}
+
+
+function nextQuestion(){
+
+qIndex++;
+
+if(qIndex<current.length){
+
+loadQuestion();
+
+}else{
+
+finishGame();
+
+}
+
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+function finishGame(){
+
+const total=
+current.length*10;
+
+const rec={
+
+id:Date.now(),
+
+difficulty:settings.difficulty,
+
+count:current.length,
+
+score:score,
+
+total:total,
+
+date:new Date().toISOString()
+
+};
+
+user.games=(user.games||0)+1;
+
+user.best=Math.max(
+user.best||0,
+score
+);
+
+user.totalScore=
+(user.totalScore||0)+score;
+
+user.totalQuestions=
+(user.totalQuestions||0)+current.length;
+
+user.history=
+readHistory();
+
+user.history.unshift(rec);
+
+user.history=
+user.history.slice(0,50);
+
+saveUser();
+
+$("finalScore").textContent=
+`Skor: ${score}/${total}`;
+
+$("finalRank").textContent=
+score>=90
+?"🏆 MASTER PHOTOGRAPHER"
+:score>=75
+?"🔥 PHOTOGRAPHER"
+:score>=60
+?"📸 ROOKIE PHOTOGRAPHER"
+:"🗿 MASIH PEMANASAN";
+
+$("finalSummary").textContent=
+`Selesai ${current.length} quest • ${perfect}/${current.length} sempurna.`;
+
+showOnly("finish");
+
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+function renderHistory(){
+
+const area=$("historyArea");
+
+if(!user.historyVisible){
+
+area.innerHTML="";
+
+$("historyToggle").textContent=
+"HISTORI: OFF";
+
+return;
+
+}
+
+$("historyToggle").textContent=
+"HISTORI: ON";
+
+const h=readHistory();
+
+if(!h.length){
+
+area.innerHTML=
+'<div class="empty">Belum ada permainan.</div>';
+
+return;
+
+}
+
+let expanded=
+!!user.historyExpanded;
+
+const shown=
+expanded
+?h.slice(0,50)
+:h.slice(0,5);
+
+area.innerHTML=
+shown.map((x,idx)=>`
+
+<div class="historyItem">
+
+<div class="historyInfo">
+
+<b>
+${x.difficulty.toUpperCase()}
+•
+${x.count} SOAL
+•
+${x.score}/${x.total}
+</b>
+
+<small>
+${formatDate(x.date)}
+</small>
+
+</div>
+
+<button
+class="btn retry"
+onclick="retryHistory(${idx})">
+
+COBA LAGI
+
+</button>
+
+</div>
+
+`).join("");
+
+if(h.length>5){
+
+area.innerHTML+=`
+
+<button
+class="seeMore"
+onclick="toggleMore()">
+
+${expanded
+?"See less"
+:"See more ("+(h.length-5)+")"}
+
+</button>
+
+`;
+
+}
+
+}
+
+
+function retryHistory(index){
+
+const h=readHistory();
+
+const x=h[index];
+
+if(!x)return;
+
+settings.difficulty=
+x.difficulty;
+
+settings.count=
+x.count;
+
+startGame();
+
+}
+
+
+function toggleMore(){
+
+user.historyExpanded=
+!user.historyExpanded;
+
+saveUser();
+
+renderHistory();
+
+}
+
+
+function toggleHistory(){
+
+user.historyVisible=
+!user.historyVisible;
+
+saveUser();
+
+renderHistory();
+
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
+
+function showStats(){
+
+$("stGames").textContent=
+user.games||0;
+
+$("stBest").textContent=
+user.best||0;
+
+$("stAvg").textContent=
+user.games
+?Math.round(
+user.totalScore/user.games
+)
+:0;
+
+$("stQuestions").textContent=
+user.totalQuestions||0;
+
+showOnly("statsPage");
+
+}
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+function localLeaderboard(){
+
+let all=[];
+
+try{
+
+all=JSON.parse(
+localStorage.getItem(
+"pqLeaderboardV4"
+)||"[]"
+);
+
+}catch(e){}
+
+const idx=
+all.findIndex(
+x=>x.id===user.id
+);
+
+const entry={
+
+id:user.id,
+
+name:user.name,
+
+avatar:user.avatar,
+
+score:user.best||0
+
+};
+
+if(idx>=0){
+
+all[idx]=entry;
+
+}else{
+
+all.push(entry);
+
+}
+
+all.sort(
+(a,b)=>b.score-a.score
+);
+
+try{
+
+localStorage.setItem(
+"pqLeaderboardV4",
+JSON.stringify(all)
+);
+
+}catch(e){}
+
+return all;
+
+}
+
+
+function showLeaderboard(){
+
+const all=
+localLeaderboard();
+
+$("leaderboardList").innerHTML=
+
+all.length
+
+?all.slice(0,50)
+.map((x,i)=>`
+
+<div class="leader">
+
+<div class="rankNo">
+#${i+1}
+</div>
+
+<img
+src="${x.avatar||avatarData(x.name)}">
+
+<div class="grow">
+
+<b>${escapeHtml(x.name)}</b>
+
+<div class="muted">
+ID: ${x.id}
+</div>
+
+</div>
+
+<b>${x.score}</b>
+
+</div>
+
+`).join("")
+
+:'<div class="empty">Belum ada player.</div>';
+
+showOnly("leaderboardPage");
+
+}
+
+
+function escapeHtml(s){
+
+return String(s).replace(
+/[&<>'"]/g,
+c=>({
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+"'":'&#39;',
+'"':'&quot;'
+
+}[c])
+
+);
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function goHome(){
+
+showHome();
+
+}
+
+
+function showProfile(){
+
+if(!user.id){
+
+user.id=makeId();
+
+saveUser();
+
+}
+
+updateImage(
+$("profileAvatar"),
+user.avatar
+);
+
+$("profileBanner").src=
+user.banner||defaultBanner();
+
+$("profileName").value=
+user.name;
+
+$("profilePlayerId").textContent=
+user.id;
+
+$("profilePhoto").value="";
+
+$("profileBannerInput").value="";
+
+$("profileModal")
+.classList.remove("hidden");
+
+}
+
+
+function defaultBanner(){
+
+return "data:image/svg+xml;charset=UTF-8,"+
+encodeURIComponent(
+
+`<svg xmlns="http://www.w3.org/2000/svg"
+width="900"
+height="300">
+
+<defs>
+
+<linearGradient
+id="g"
+x1="0"
+x2="1">
+
+<stop
+stop-color="#3b3b3b"/>
+
+<stop
+offset="1"
+stop-color="#171717"/>
+
+</linearGradient>
+
+</defs>
+
+<rect
+width="100%"
+height="100%"
+fill="url(#g)"/>
+
+</svg>`
+
+);
+
+}
+
+
+function closeModal(){
+
+$("profileModal")
+.classList.add("hidden");
+
+}
+
+
+function removeBanner(){
+
+user.banner="";
+
+saveUser();
+
+$("profileBanner").src=
+defaultBanner();
+
+$("profileBannerInput").value="";
+
+updateHome();
+
+}
+
+
+/* =========================
+   CROP
+========================= */
+
+let cropState={
+type:null,
+src:null,
+img:null,
+scale:1,
+x:0,
+y:0,
+startX:0,
+startY:0,
+dragging:false
+};
+
+
+function openCropper(file,type){
+
+if(!file)return;
+
+const r=
+new FileReader();
+
+r.onload=()=>{
+
+cropState={
+
+type:type,
+
+src:r.result,
+
+img:null,
+
+scale:1,
+
+x:0,
+
+y:0,
+
+startX:0,
+
+startY:0,
+
+dragging:false
+
+};
+
+$("cropTitle").textContent=
+type==="avatar"
+?"Atur Foto Profil"
+:"Atur Banner";
+
+$("cropViewport").className=
+"cropViewport "+
+(type==="avatar"?"circle":"");
+
+$("cropMask").className=
+"cropMask "+type;
+
+$("cropZoom").value=1;
+
+const img=$("cropImg");
+
+img.onload=()=>{
+
+cropState.img=img;
+
+fitCropImage();
+
+};
+
+img.src=r.result;
+
+$("cropModal")
+.classList.remove("hidden");
+
+};
+
+r.readAsDataURL(file);
+
+}
+
+
+function fitCropImage(){
+
+const img=cropState.img;
+
+const v=$("cropViewport");
+
+if(!img)return;
+
+const vw=v.clientWidth;
+
+const vh=v.clientHeight;
+
+const base=Math.max(
+vw/img.naturalWidth,
+vh/img.naturalHeight
+);
+
+cropState.scale=base;
+
+cropState.x=0;
+
+cropState.y=0;
+
+$("cropZoom").value=1;
+
+renderCrop();
+
+}
+
+
+function renderCrop(){
+
+const img=cropState.img;
+
+if(!img)return;
+
+const v=$("cropViewport");
+
+const vw=v.clientWidth;
+
+const vh=v.clientHeight;
+
+const z=
+Number($("cropZoom").value);
+
+const w=
+img.naturalWidth*
+cropState.scale*
+z;
+
+const h=
+img.naturalHeight*
+cropState.scale*
+z;
+
+img.style.width=w+"px";
+
+img.style.height=h+"px";
+
+img.style.left=
+(vw/2+cropState.x)+"px";
+
+img.style.top=
+(vh/2+cropState.y)+"px";
+
+img.style.transform=
+"translate(-50%,-50%)";
+
+}
+
+
+function cancelCrop(){
+
+$("cropModal")
+.classList.add("hidden");
+
+cropState={
+
+type:null,
+src:null,
+img:null,
+scale:1,
+x:0,
+y:0,
+startX:0,
+startY:0,
+dragging:false
+
+};
+
+}
+
+
+function applyCrop(){
+
+const img=cropState.img;
+
+if(!img)return;
+
+const v=$("cropViewport");
+
+const vw=v.clientWidth;
+
+const vh=v.clientHeight;
+
+const outW=
+cropState.type==="avatar"
+?600
+:1200;
+
+const outH=
+cropState.type==="avatar"
+?600
+:400;
+
+const displayedW=
+img.naturalWidth*
+cropState.scale*
+Number($("cropZoom").value);
+
+const displayedH=
+img.naturalHeight*
+cropState.scale*
+Number($("cropZoom").value);
+
+const left=
+vw/2+
+cropState.x-
+displayedW/2;
+
+const top=
+vh/2+
+cropState.y-
+displayedH/2;
+
+const sx=
+Math.max(
+0,
+(0-left)/displayedW
+)*
+img.naturalWidth;
+
+const sy=
+Math.max(
+0,
+(0-top)/displayedH
+)*
+img.naturalHeight;
+
+const sw=
+Math.min(
+img.naturalWidth-sx,
+(vw/displayedW)*
+img.naturalWidth
+);
+
+const sh=
+Math.min(
+img.naturalHeight-sy,
+(vh/displayedH)*
+img.naturalHeight
+);
+
+const c=
+document.createElement("canvas");
+
+c.width=outW;
+c.height=outH;
+
+const ctx=c.getContext("2d");
+
+if(cropState.type==="avatar"){
+
+ctx.save();
+
+ctx.beginPath();
+
+ctx.arc(
+outW/2,
+outH/2,
+outW/2,
+0,
+Math.PI*2
+);
+
+ctx.clip();
+
+}
+
+ctx.drawImage(
+img,
+sx,
+sy,
+sw,
+sh,
+0,
+0,
+outW,
+outH
+);
+
+if(cropState.type==="avatar")
+ctx.restore();
+
+const data=
+c.toDataURL(
+"image/jpeg",
+.86
+);
+
+if(cropState.type==="avatar"){
+
+user.avatar=data;
+
+$("profileAvatar").src=data;
+
+}else{
+
+user.banner=data;
+
+$("profileBanner").src=data;
+
+}
+
+saveUser();
+
+cancelCrop();
+
+}
+
+
+function saveProfile(){
+
+const n=
+$("profileName")
+.value.trim();
+
+if(!n){
+
+alert("Nama tidak boleh kosong.");
+
+return;
+
+}
+
+user.name=n;
+
+try{
+
+saveUser();
+
+closeModal();
+
+showHome();
+
+alert("Profil berhasil disimpan!");
+
+}catch(e){
+
+alert(
+"Gagal menyimpan profil. Coba gambar lain."
+);
+
+}
+
+}
+
+
+/* =========================
+   PHOTO INPUT
+========================= */
+
+$("loginPhoto")
+.addEventListener(
+"change",
+()=>{
+
+const f=
+$("loginPhoto").files[0];
+
+if(!f)return;
+
+const r=
+new FileReader();
+
+r.onload=()=>{
+
+$("loginAvatar").src=
+r.result;
+
+};
+
+r.readAsDataURL(f);
+
+}
+);
+
+
+$("profilePhoto")
+.addEventListener(
+"change",
+()=>{
+
+const f=
+$("profilePhoto").files[0];
+
+if(!f)return;
+
+openCropper(
+f,
+"avatar"
+);
+
+$("profilePhoto").value="";
+
+}
+);
+
+
+$("profileBannerInput")
+.addEventListener(
+"change",
+()=>{
+
+const f=
+$("profileBannerInput").files[0];
+
+if(!f)return;
+
+openCropper(
+f,
+"banner"
+);
+
+$("profileBannerInput").value="";
+
+}
+);
+
+
+/* =========================
+   CROP CONTROLS
+========================= */
+
+$("cropZoom")
+.addEventListener(
+"input",
+renderCrop
+);
+
+
+const cropViewport=
+$("cropViewport");
+
+
+cropViewport.addEventListener(
+"pointerdown",
+e=>{
+
+if(!cropState.img)return;
+
+cropState.dragging=true;
+
+cropState.startX=
+e.clientX-cropState.x;
+
+cropState.startY=
+e.clientY-cropState.y;
+
+$("cropImg")
+.classList.add("dragging");
+
+cropViewport
+.setPointerCapture?.(
+e.pointerId
+);
+
+}
+);
+
+
+cropViewport.addEventListener(
+"pointermove",
+e=>{
+
+if(!cropState.dragging)return;
+
+cropState.x=
+e.clientX-cropState.startX;
+
+cropState.y=
+e.clientY-cropState.startY;
+
+renderCrop();
+
+}
+);
+
+
+cropViewport.addEventListener(
+"pointerup",
+e=>{
+
+cropState.dragging=false;
+
+$("cropImg")
+.classList.remove("dragging");
+
+try{
+
+cropViewport
+.releasePointerCapture?.(
+e.pointerId
+);
+
+}catch(_){}
+
+}
+);
+
+
+cropViewport.addEventListener(
+"pointercancel",
+()=>{
+
+cropState.dragging=false;
+
+$("cropImg")
+.classList.remove("dragging");
+
+}
+);
+
+
+/* =========================
+   THEME
+========================= */
+
+function applyTheme(){
+
+let light=false;
+
+try{
+
+light=
+localStorage.getItem(
+"pqTheme"
+)==="light";
+
+}catch(e){}
+
+document.body.classList.toggle(
+"light-theme",
+light
+);
+
+$("themeLabel").textContent=
+light?"Cerah":"Gelap";
+
+$("themeSwitch")
+.setAttribute(
+"aria-label",
+light
+?"Mode cerah"
+:"Mode gelap"
+);
+
+}
+
+
+function openMenu(){
+
+applyTheme();
+
+$("menuDrawer")
+.classList.remove("hidden");
+
+}
+
+
+function closeMenu(){
+
+$("menuDrawer")
+.classList.add("hidden");
+
+}
+
+
+function toggleTheme(){
+
+const isLight=
+document.body
+.classList
+.contains("light-theme");
+
+try{
+
+localStorage.setItem(
+"pqTheme",
+isLight
+?"dark"
+:"light"
+);
+
+}catch(e){}
+
+applyTheme();
+
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+(function init(){
+
+applyTheme();
+
+try{
+
+if(
+localStorage.getItem(
+"pqAccountResetV2"
+)!=="done"
+){
+
+localStorage.removeItem(
+"pqUserV4"
+);
+
+localStorage.removeItem(
+"pqLeaderboardV4"
+);
+
+localStorage.setItem(
+"pqAccountResetV2",
+"done"
+);
+
+}
+
+}catch(e){}
+
+user=readUser();
+
+$("loginAvatar").src=
+avatarData("Player");
+
+if(user){
+
+showHome();
+
+}else{
+
+showOnly("login");
+
+}
+
+})();
+
+</script>
+
+</body>
+</html>
